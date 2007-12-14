@@ -1,0 +1,13 @@
+use inc::Module::Install;
+name 'POE-Component-Client-NSCA';
+author 'Chris Williams <chris@bingosnet.co.uk>';
+license 'perl';
+version_from 'lib/POE/Component/Client/NSCA.pm';
+abstract_from 'lib/POE/Component/Client/NSCA.pm';
+build_requires 'Test::More' => 0.47;
+requires 'Carp' => 0;
+requires 'Socket' => 0;
+requires 'POE'    => 0.38;
+my $value = prompt( 'Do you want encryption ( requires Mcrypt ) [y/N]?', 'N' );
+requires 'Mcrypt' => 2.5 if $value =~ /^y/i;
+WriteAll();
