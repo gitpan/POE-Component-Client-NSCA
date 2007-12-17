@@ -1,5 +1,8 @@
 POE::Component::Client::NSCA
 ============================
 
+0.02	Mon Dec 17 13:27:16 GMT 2007
+	- Added a 'warn' to try and track down problem with Mcrypt encryption
+
 0.01	Fri Dec 14 16:01:17 GMT 2007
 	- Initial CPAN Release
