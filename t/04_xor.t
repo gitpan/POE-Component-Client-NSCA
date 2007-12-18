@@ -4,9 +4,22 @@ BEGIN {	use_ok( 'POE::Component::Client::NSCA' ) };
 
 use Socket;
 use POE qw(Wheel::SocketFactory Filter::Stream);
-use Data::Dumper;
 
-my $encryption = 0;
+use constant MAX_INPUT_BUFFER =>	2048	; # /* max size of most buffers we use */
+use constant MAX_HOST_ADDRESS_LENGTH =>	256	; # /* max size of a host address */
+use constant MAX_HOSTNAME_LENGTH =>	64	;
+use constant MAX_DESCRIPTION_LENGTH =>	128;
+use constant MAX_PLUGINOUTPUT_LENGTH =>	512;
+use constant MAX_PASSWORD_LENGTH =>     512;
+use constant SIZEOF_U_INT32_T   => 4;
+use constant SIZEOF_INT16_T     => 2;
+use constant SIZEOF_INIT_PACKET => TRANSMITTED_IV_SIZE + SIZEOF_U_INT32_T;
+
+use constant PROBABLY_ALIGNMENT_ISSUE => 4;
+
+use constant SIZEOF_DATA_PACKET => SIZEOF_INT16_T + SIZEOF_U_INT32_T + SIZEOF_U_INT32_T + SIZEOF_INT16_T + MAX_HOSTNAME_LENGTH + MAX_DESCRIPTION_LENGTH + MAX_PLUGINOUTPUT_LENGTH + PROBABLY_ALIGNMENT_ISSUE;
+
+my $encryption = 1;
 
 my $message = {
                 host_name => 'bovine',
@@ -90,8 +103,8 @@ sub _server_accepted {
   my $init_packet;
   $heap->{ts} = time();
   srand( $heap->{ts} );
-  $init_packet .= int rand(10) for 0 .. 127;
-  $init_packet .= pack 'N', $heap->{ts};
+  $heap->{iv} .= int rand(10) for 0 .. 127;
+  $init_packet = $heap->{iv} . pack 'N', $heap->{ts};
   $wheel->put( $init_packet );
   return;
 }
@@ -108,7 +121,8 @@ sub _client_error {
 }
 
 sub _client_input {
-  my ($kernel,$heap,$input,$wheel_id) = @_[KERNEL,HEAP,ARG0,ARG1];
+  my ($kernel,$heap,$encrypt,$wheel_id) = @_[KERNEL,HEAP,ARG0,ARG1];
+  my $input = _encrypt_xor( $encrypt, $heap->{iv}, 'cow' );
   my $version = unpack 'n', substr $input, 0, 4;
   my $crc32 = unpack 'N', substr $input, 4, 4;
   my $ts = unpack 'N', substr $input, 8, 4;
@@ -161,4 +175,36 @@ sub _generate_crc32_table {
                 $crc32_table->[$i] = $crc;
         }
         return $crc32_table;
+}
+
+sub _encrypt_xor {
+        my ($data_packet_string, $iv_salt, $password) = @_;
+
+        my @out = split(//, $data_packet_string);
+        my @salt_iv = split(//, $iv_salt);
+        my @salt_pw = split(//, $password);
+
+        my $y = 0;
+        my $x = 0;
+
+        #/* rotate over IV we received from the server... */
+        while ($y < SIZEOF_DATA_PACKET) {
+                #/* keep rotating over IV */
+                $out[$y] = $out[$y] ^ $salt_iv[$x % scalar(@salt_iv)];
+
+                $y++;
+                $x++;
+        }
+
+        #/* rotate over password... */
+        $y=0;
+        $x=0;
+        while ($y < SIZEOF_DATA_PACKET){
+                #/* keep rotating over password */
+                $out[$y] = $out[$y] ^ $salt_pw[$x % scalar(@salt_pw)];
+
+                $y++;
+                $x++;
+        }
+        return( join('',@out) );
 }

@@ -1,6 +1,9 @@
 POE::Component::Client::NSCA
 ============================
 
+0.04	Tue Dec 18 14:26:53 GMT 2007
+	- Refactored 03_basic.t and added 04_xor.t tests
+
 0.03	Mon Dec 17 16:57:08 GMT 2007
 	- Finally got the Mcrypt stuff working against the 'proper' NSCA daemon
 
