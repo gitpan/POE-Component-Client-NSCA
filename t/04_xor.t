@@ -130,7 +130,7 @@ sub _client_input {
   my $firstbit = substr $input, 0, 4;
   my $secondbit = substr $input, 8;
   my $checksum = _calculate_crc32( $firstbit . pack('N', 0) . $secondbit );
-  ok( $checksum == $crc32, 'Checksum matches' );
+  ok( $checksum == $crc32, 'Checksum matches' )  or diag("Expected '$checksum', but got '$crc32' instead\n");
   ok( $version == 3, 'Version okay' );
   ok( $ts == $heap->{ts}, 'Timestamp okay' );
   ok( $rc == $message->{return_code}, 'Return code fine' );

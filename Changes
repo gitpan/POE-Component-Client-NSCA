@@ -1,6 +1,9 @@
 POE::Component::Client::NSCA
 ============================
 
+0.05	Wed Dec 19 18:38:16 GMT 2007
+	- Changes to 03_basic.t and 04_xor.t to try and track down checksum mismatches
+
 0.04	Tue Dec 18 14:26:53 GMT 2007
 	- Refactored 03_basic.t and added 04_xor.t tests
 
