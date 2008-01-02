@@ -7,7 +7,7 @@ use Socket;
 use integer;
 use vars qw($VERSION);
 
-$VERSION = '0.05';
+$VERSION = '0.06';
 
 use constant PROGRAM_VERSION => "1.2.0b4-Perl";
 use constant MODIFICATION_DATE => "16-03-2006";
