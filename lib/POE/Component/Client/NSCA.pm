@@ -1,13 +1,14 @@
 package POE::Component::Client::NSCA;
 
 use strict;
+use warnings;
 use POE qw(Wheel::SocketFactory Filter::Stream Wheel::ReadWrite);
 use Carp;
 use Socket;
 use integer;
 use vars qw($VERSION);
 
-$VERSION = '0.06';
+$VERSION = '0.08';
 
 use constant PROGRAM_VERSION => "1.2.0b4-Perl";
 use constant MODIFICATION_DATE => "16-03-2006";
