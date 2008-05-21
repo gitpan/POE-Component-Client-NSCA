@@ -22,4 +22,3 @@ t/03_basic.t
 t/04_xor.t
 t/99_pod.t
 t/99_pod_coverage.t
-t/99_test_kwalitee.t

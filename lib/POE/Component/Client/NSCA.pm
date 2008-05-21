@@ -8,7 +8,7 @@ use Socket;
 use integer;
 use vars qw($VERSION);
 
-$VERSION = '0.08';
+$VERSION = '0.10';
 
 use constant PROGRAM_VERSION => "1.2.0b4-Perl";
 use constant MODIFICATION_DATE => "16-03-2006";
@@ -570,6 +570,12 @@ Based on L<Net::Nsca> by P Kent
 Which was originally derived from work by Ethan Galstad.
 
 See the LICENSE file for details.
+
+=head1 LICENSE
+
+Copyright L<(c)> Chris Williams, P Kent and Ethan Galstad.
+
+This module may be used, modified, and distributed under the same terms as Perl itself. Please see the license that came with your Perl distribution for details.
 
 =head1 SEE ALSO
 

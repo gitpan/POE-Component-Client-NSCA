@@ -1,6 +1,10 @@
 POE::Component::Client::NSCA
 ============================
 
+0.10	Wed May 21 10:53:13 BST 2008
+	- removed kwalitee test
+	- added additional license information
+
 0.08	Mon Mar 31 14:28:23 BST 2008
 	- Kwalitee fixes.
 

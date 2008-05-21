@@ -1,7 +1,9 @@
+use strict;
 use inc::Module::Install;
 name 'POE-Component-Client-NSCA';
 author 'Chris Williams <chris@bingosnet.co.uk>';
 license 'perl';
+perl_version '5.000';
 version_from 'lib/POE/Component/Client/NSCA.pm';
 abstract_from 'lib/POE/Component/Client/NSCA.pm';
 build_requires 'Test::More' => 0.47;
