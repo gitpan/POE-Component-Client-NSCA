@@ -18,12 +18,9 @@ no_index:
     - examples
     - examples
 requires:
-  Carp: 0
   POE: 0.38
   POE::Filter::Stream: 0
   POE::Wheel::ReadWrite: 0
   POE::Wheel::SocketFactory: 0
-  Socket: 0
-  integer: 0
-  perl: 5.000
-version: 0.10
+  perl: 5.8.0
+version: 0.12
