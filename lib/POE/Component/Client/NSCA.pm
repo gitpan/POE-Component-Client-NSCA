@@ -8,7 +8,7 @@ use Socket;
 use integer;
 use vars qw($VERSION);
 
-$VERSION = '0.12';
+$VERSION = '0.14';
 
 use constant PROGRAM_VERSION => "1.2.0b4-Perl";
 use constant MODIFICATION_DATE => "16-03-2006";
@@ -121,7 +121,7 @@ sub send_nsca {
   croak "$package requires an 'event' argument\n"
 	unless $params{event};
   croak "$package requires a 'password' argument\n"
-	unless $params{password};
+	unless $params{password} || $params{encryption} eq ENCRYPT_XOR;
   croak "$package requires an 'encryption' argument\n"
 	unless defined $params{encryption};
   croak "$package requires a 'message' argument and it must be a hashref\n"
@@ -379,15 +379,17 @@ sub _encrypt_xor {
                 $x++;
         }
 
-        #/* rotate over password... */
-        $y=0;
-        $x=0;
-        while ($y < SIZEOF_DATA_PACKET){
-                #/* keep rotating over password */
-                $out[$y] = $out[$y] ^ $salt_pw[$x % scalar(@salt_pw)];
+        if ($password) {
+            #/* rotate over password... */
+            $y=0;
+            $x=0;
+            while ($y < SIZEOF_DATA_PACKET){
+                    #/* keep rotating over password */
+                    $out[$y] = $out[$y] ^ $salt_pw[$x % scalar(@salt_pw)];
 
-                $y++;
-                $x++;
+                    $y++;
+                    $x++;
+            }
         }
         return( join('',@out) );
 }

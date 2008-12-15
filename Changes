@@ -1,6 +1,10 @@
 POE::Component::Client::NSCA
 ============================
 
+0.14	Mon Dec 15 12:30:24 GMT 2008
+	- [rt.cpan.org #41656] Blank password not allowed with XOR 'encryption'
+	  patch applied from JT Justman to fix this.
+
 0.12	Thu May 22 14:19:41 BST 2008
 	- changed minimum perl version to 5.8
 
